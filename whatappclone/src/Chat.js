@@ -63,10 +63,12 @@ function Chat() {
                     <h3>{roomNAME}</h3>
                     <p>
                         last seen {" "}
-                        {new Date(
-                            messages[messages.length - 1]?.
-                            timestamp?.toDate()
-                            ).toUTCString()}
+                        <Moment format="l"> 
+                            {new Date(
+                                messages[messages.length - 1]?.
+                                timestamp?.toDate()
+                                ).toUTCString()}  
+                        </Moment>
                     </p>
                 </div>
                 <div className="chat_header_right">
@@ -87,7 +89,7 @@ function Chat() {
                           <p className={`Chat_message ${msg.name === user.displayName && 'Chat_receiver'} `}>
                             <span className="Chat_Name">{msg.name}</span>
                             {msg.message}
-                      <span className="Chat_TimeStamp"><Moment format="YYYY/MM/DD">{new Date(msg.timestamp?.toDate()).toUTCString()}</Moment></span>
+                      <span className="Chat_TimeStamp"><Moment format="L">{new Date(msg.timestamp?.toDate()).toUTCString()}</Moment></span>
                         </p>
                       ) )}                     
             </div>
