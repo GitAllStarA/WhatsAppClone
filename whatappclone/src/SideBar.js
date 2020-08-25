@@ -3,29 +3,36 @@ import "./SideBar.css"
 import SearchOutlinedIcon from '@material-ui/icons/Search';
 import ChatIcon from '@material-ui/icons/Chat';
 import {Avatar ,IconButton} from "@material-ui/core"
-import PersonIcon from '@material-ui/icons/Person';
-import SettingsIcon from '@material-ui/icons/Settings';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SidebarChat from './SidebarChat.js';
 import db from './Firebase';
+
+
+import {useStateValue} from "./StateProvider"
+
+
 function SideBar() {
+    
+const [{user}, dispatch] = useStateValue();
     const [rooms, setRooms] = useState([]);
      useEffect(() => {
-         db.collection('rooms').onSnapshot(snapshot => setRooms(
+       const Unsub =  db.collection('rooms').onSnapshot(snapshot => setRooms(
                    snapshot.docs.map(doc => ( {
                        id: doc.id,
                        data: doc.data(),
                    }))
                )
          );
+         return () => {
+             Unsub();
+         }
      },[]);
     
         return (
             <div className="sidebar">
                 <div className="sidebar__header">
-                    <Avatar/>
+                    <Avatar src={user?.photoURL}/>
                         <div className="header__right"></div>
                             <IconButton>  
                                 <DonutLargeIcon/>
